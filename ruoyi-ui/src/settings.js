@@ -1,5 +1,5 @@
 module.exports = {
-  title: '若依管理系统',
+  title: 'i国网智慧园区',
 
   /**
    * 是否系统布局配置

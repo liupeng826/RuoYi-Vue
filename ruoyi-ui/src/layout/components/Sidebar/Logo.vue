@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: 'i国网智慧园区',
       logo: logoImg
     }
   }
