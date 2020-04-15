@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.iforms.mapper.FormMapper">
+    
+    <resultMap type="Form" id="FormResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="status"    column="status"    />
+        <result property="type"    column="type"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectFormVo">
+        select id, title, content, status, type, created_by, created_date from f_form
+    </sql>
+
+    <select id="selectFormList" parameterType="Form" resultMap="FormResult">
+        <include refid="selectFormVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectFormById" parameterType="Long" resultMap="FormResult">
+        <include refid="selectFormVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertForm" parameterType="Form" useGeneratedKeys="true" keyProperty="id">
+        insert into f_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null ">content,</if>
+            <if test="status != null ">status,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="createdBy != null  and createdBy != ''">created_by,</if>
+            <if test="createdDate != null ">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null ">#{content},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="createdBy != null  and createdBy != ''">#{createdBy},</if>
+            <if test="createdDate != null ">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateForm" parameterType="Form">
+        update f_form
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null ">content = #{content},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="createdBy != null  and createdBy != ''">created_by = #{createdBy},</if>
+            <if test="createdDate != null ">created_date = #{createdDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFormById" parameterType="Long">
+        delete from f_form where id = #{id}
+    </delete>
+
+    <delete id="deleteFormByIds" parameterType="String">
+        delete from f_form where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

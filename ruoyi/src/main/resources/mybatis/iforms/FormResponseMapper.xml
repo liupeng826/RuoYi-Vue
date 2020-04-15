@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.iforms.mapper.FormResponseMapper">
+    
+    <resultMap type="FormResponse" id="FormResponseResult">
+        <result property="id"    column="id"    />
+        <result property="formId"    column="form_id"    />
+        <result property="content"    column="content"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectFormResponseVo">
+        select id, form_id, content, created_by, created_date from f_response
+    </sql>
+
+    <select id="selectFormResponseList" parameterType="FormResponse" resultMap="FormResponseResult">
+        <include refid="selectFormResponseVo"/>
+        <where>  
+            <if test="formId != null "> and form_id = #{formId}</if>
+            <if test="content != null "> and content = #{content}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectFormResponseById" parameterType="Long" resultMap="FormResponseResult">
+        <include refid="selectFormResponseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFormResponse" parameterType="FormResponse" useGeneratedKeys="true" keyProperty="id">
+        insert into f_response
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="formId != null ">form_id,</if>
+            <if test="content != null ">content,</if>
+            <if test="createdBy != null  and createdBy != ''">created_by,</if>
+            <if test="createdDate != null ">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="formId != null ">#{formId},</if>
+            <if test="content != null ">#{content},</if>
+            <if test="createdBy != null  and createdBy != ''">#{createdBy},</if>
+            <if test="createdDate != null ">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFormResponse" parameterType="FormResponse">
+        update f_response
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="formId != null ">form_id = #{formId},</if>
+            <if test="content != null ">content = #{content},</if>
+            <if test="createdBy != null  and createdBy != ''">created_by = #{createdBy},</if>
+            <if test="createdDate != null ">created_date = #{createdDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFormResponseById" parameterType="Long">
+        delete from f_response where id = #{id}
+    </delete>
+
+    <delete id="deleteFormResponseByIds" parameterType="String">
+        delete from f_response where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
