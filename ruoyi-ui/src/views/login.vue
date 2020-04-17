@@ -48,7 +48,8 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2019 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2019-2020 microAstudio.com All Rights Reserved.</span>
+      <a href="http://www.beian.miit.gov.cn" target="_blank">津ICP备19006964号</a>
     </div>
   </div>
 </template>
