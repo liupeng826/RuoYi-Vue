@@ -80,7 +80,11 @@
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="序号" align="center" prop="tableId" width="60px" />
+      <el-table-column label="序号" type="index" width="50" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="表名称"
         align="center"
@@ -266,7 +270,7 @@ export default {
     /** 修改按钮操作 */
     handleEditTable(row) {
       const tableId = row.tableId || this.ids[0];
-      this.$router.push({ path: "/gen/edit", query: { tableId: tableId } });
+      this.$router.push("/gen/edit/" + tableId);
     },
     /** 删除按钮操作 */
     handleDelete(row) {
