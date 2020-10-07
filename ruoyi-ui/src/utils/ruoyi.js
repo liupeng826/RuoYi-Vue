@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 通用js方法封装处理
  * Copyright (c) 2019 ruoyi
  */
@@ -83,8 +83,8 @@ export function selectDictLabels(datas, value, separator) {
 	var currentSeparator = undefined === separator ? "," : separator;
 	var temp = value.split(currentSeparator);
 	Object.keys(value.split(currentSeparator)).some((val) => {
-        Object.keys(datas).some((key) => {
-            if (datas[key].dictValue == ('' + temp[val])) {
+		Object.keys(datas).some((key) => {
+			if (datas[key].dictValue == ('' + temp[val])) {
 				actions.push(datas[key].dictLabel + currentSeparator);
 			}
 		})
@@ -131,7 +131,7 @@ export function handleTree(data, id, parentId, children, rootId) {
 	id = id || 'id'
 	parentId = parentId || 'parentId'
 	children = children || 'children'
-	rootId = rootId || 0
+	rootId = rootId || Math.min.apply(Math, data.map(item => { return item[parentId] })) || 0
 	//对源数据深度克隆
 	const cloneData = JSON.parse(JSON.stringify(data))
 	//循环所有项
@@ -146,4 +146,3 @@ export function handleTree(data, id, parentId, children, rootId) {
 	});
 	return treeData != '' ? treeData : data;
 }
-
